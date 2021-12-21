@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog
+  labels:
+    app: blog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blog
+  template:
+    metadata:
+      labels:
+        app: blog
+    spec:
+      #imagePullSecrets: ==> if you are calling a private registry
+      #- name: my-registry-key-name ==> the name of the secret created containing the item
+      containers:
+        - name: blog
+          image: ghost # in case of not being from docker hub the full image with the link of the registery my-registry.docker.com/ghost:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 2368
+          env:
+            - name: url
+              value: https://{your-domain}
